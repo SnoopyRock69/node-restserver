@@ -1,51 +1,27 @@
+//Importamos archivo de configuración de conexión.
 require('./config/config');
-
+//Importamos framework express para habilitar funcionalidades.
 const express = require('express');
+//Cargamos la libería de mongoose
+const mongoose = require('mongoose');
 const app = express();
-
+//importamos bodyparser para ...
 const bodyparser = require('body-parser');
 
 app.use(bodyparser.urlencoded({ extended: false }));
 
 app.use(bodyparser.json());
 
-//GET
-app.get('/usuario', function(req, res) {
-    res.json('Get usuario')
-})
+//importamos y usamos las rutas de usuarios
 
-//POST
-app.post('/usuario', function(req, res) {
-    let body = req.body;
+app.use(require('./routes/usuario'))
 
-    if (body.nombre === undefined) {
+//Establecemos la conexión con la base de datos usando mongoose
+mongoose.connect(process.env.URLDB, (err, res) => {
 
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-
-    } else {
-        res.json({
-            body
-        });
-    }
-
-})
-
-//PUT
-app.put('/usuario/:id', function(req, res) {
-    let id = req.params.id; //Obtener id del usuario.
-    res.json({
-        id
-    });
-})
-
-//DELETE
-app.delete('/usuario', function(req, res) {
-    res.json('Delete usuario')
-})
-
+    if (err) throw err;
+    console.log('Base de datos ONLINE');
+});
 
 //Habilitamos el puerto de escucha.
 app.listen(process.env.PORT, () => {
