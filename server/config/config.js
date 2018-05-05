@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 } else {
     //Conexión remota.
-    urlDB = 'mongodb://cafe-user:snoopyrock_69@ds115360.mlab.com:15360/cafe-udemy';
+    urlDB = process.env.MONGO_URI; //conectamos a la variable de entorno creada en heroku con la dirección de mLab.
 }
 
 //Nos inventamos un environment para conectar la DB
