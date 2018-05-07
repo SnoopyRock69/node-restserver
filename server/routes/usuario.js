@@ -10,11 +10,14 @@ const _ = require('underscore');
 //Objeto con esquema de usuario en la DB.
 const Usuario = require('../models/usuario');
 
+//Importamos función para verificar token.
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+
 //Requerimos express
 const app = express();
 
 //GET: Obtener información de la DB.
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
 
     //Los parámetros opcionales caen en un objeto llamado req.query
     //Suponemos que viene una variable "desde", si no inicia en 0, primera posición.
@@ -49,7 +52,7 @@ app.get('/usuario', function(req, res) {
 })
 
 //POST: enviar información a la DB.
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
     let body = req.body;
     // Creamos nueva instancia con esquema Usuario.
     let usuario = new Usuario({
@@ -74,7 +77,7 @@ app.post('/usuario', function(req, res) {
 })
 
 //PUT: actualizar información en la DB.
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     //Obtener id del usuario.
     let id = req.params.id;
 
@@ -103,7 +106,7 @@ app.put('/usuario/:id', function(req, res) {
 })
 
 //DELETE
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     //Primero requerimos el id.
     let id = req.params.id;
