@@ -6,6 +6,8 @@ const express = require('express');
 
 //Cargamos la libería de mongoose
 const mongoose = require('mongoose');
+const path = require('path'); //Para no tener problemas importando public
+
 const app = express();
 
 //importamos bodyparser para ...
@@ -15,10 +17,13 @@ app.use(bodyparser.urlencoded({ extended: false }));
 
 app.use(bodyparser.json());
 
+//Habilitar carpeta public.
+app.use(express.static(path.resolve(__dirname, '../public')))
+
 //Importamos la configuración global de rutas.
 app.use(require('./routes/index'));
 
-//Establecemos la conexión con la base de datos usando mongoose
+//Establecemos la conexión con la base de datos usando mongoose.
 mongoose.connect(process.env.URLDB, (err, res) => {
 
     if (err) throw err;

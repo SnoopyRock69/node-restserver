@@ -47,3 +47,9 @@ if (process.env.NODE_ENV === 'dev') {
 
 //Nos inventamos un environment para conectar la DB
 process.env.URLDB = urlDB;
+
+//==============================================*
+//                GOOGLE CLIENT ID              *
+//==============================================*
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || '558482155018-b2a2nmrtl7dqifdv7q2r07upn6b6no44.apps.googleusercontent.com';
