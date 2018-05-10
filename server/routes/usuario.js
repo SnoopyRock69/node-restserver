@@ -118,7 +118,7 @@ app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, re
     // //Eliminar registro de DB completamente
     // Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
     //     if (err) {
-    //         return res.status(400).json({
+    //         return res.status(500).json({
     //             ok: false,
     //             err
     //         });
@@ -148,7 +148,7 @@ app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, re
 
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             });
