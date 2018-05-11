@@ -48,7 +48,36 @@ let verificaAdmin_Role = (req, res, next) => {
     }
 }
 
+/*
+=====================================
+    VERIFICAR TOKENS PARA IMAGEN
+=====================================
+*/
+
+let verificaTokenImg = (req, res, next) => { //next continúa la ejecución del programa.
+
+    let token = req.query.token;
+
+    //Obtener información completa
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err: {
+                    message: 'Token no válido'
+                }
+            })
+        }
+        //Cualquier tendrá acceso a la info del usuario si pasa verificatoken.
+        req.usuario = decoded.usuario; //Se obtiene el Payload del usuario.
+        next();
+    });
+}
+
+
+// Exportar funciones
 module.exports = {
     verificaToken,
-    verificaAdmin_Role
+    verificaAdmin_Role,
+    verificaTokenImg
 }
